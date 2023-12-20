@@ -1,9 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import images from '../assets/exo';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
 
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -15,14 +19,14 @@ const Login = () => {
 
       fetch('http://localhost:8000/auth/login', {
         method: 'POST',
-        headers:{
+        headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(userData),
       })
         .then((res) => res.json())
-        .then((data) => {console.log(data.message)})
-        .catch((err) => {console.log(err)});
+        .then((data) => { console.log(data.message) })
+        .catch((err) => { console.log(err) });
 
     } catch (err) {
       console.log('client error', err);
@@ -30,24 +34,35 @@ const Login = () => {
   }
 
   return (
-    <div>
-      <form className='flex flex-col gap-2 items-center justify-center' onSubmit={handleSubmit}>
-        <input
-          className=' border-2 border-gray-900'
-          type="email"
-          placeholder='Enter your email'
-          required
-          onChange={(e) => { setEmail(e.target.value) }}
-        />
-        <input
-          className=' border-2 border-gray-900'
-          type="password"
-          placeholder='Enter your password'
-          required
-          onChange={(e) => { setPassword(e.target.value) }}
-        />
-        <button className='bg-blue-500 p-2' type='submit'>Log In</button>
-      </form>
+    <div className='h-screen w-screen bg-cusDarkOne bg-cusImage bg-cover bg-fixed'>
+      <div className='h-full flex flex-col justify-evenly items-center'>
+        <div className='flex justify-center items-center cursor-pointer' onClick={() => {navigate('/')}}>
+          <img src={images.mainLogo} alt="" className=' w-64' />
+        </div>
+        <div className='flex flex-col border border-cusSecTwo bg-cusDarkTwo bg-opacity-50 backdrop-blur-md rounded-3xl w-fit items-center justify-center gap-20 p-10'>
+          <h1 className=' text-cusSecOne text-5xl font-passionOne tracking-wide'>
+            Log into your account
+          </h1>
+        <form className='flex flex-col gap-3 items-center justify-center w-full' onSubmit={handleSubmit}>
+          <input
+            className=' border border-cusSecTwo rounded-md py-2 px-4 font-comfortaa w-full bg-transparent text-cusText outline-none'
+            type="email"
+            placeholder='Enter your email'
+            required
+            onChange={(e) => { setEmail(e.target.value) }}
+          />
+          <input
+            className=' border border-cusSecTwo rounded-md py-2 px-4 font-comfortaa w-full bg-transparent text-cusText outline-none'
+            type="password"
+            placeholder='Enter your password'
+            required
+            onChange={(e) => { setPassword(e.target.value) }}
+          />
+          <p className='text-cusText font-comfortaa'>Don't have an account? <span className=' underline text-cusSecTwo hover:text-cusSecOne cursor-pointer' onClick={() => {navigate('/signup')}}>Signup</span></p>
+          <button className='bg-cusSecTwo border border-cusSecTwo text-cusDarkOne rounded-md py-2 px-4 w-full hover:bg-transparent hover:text-cusSecOne transition' type='submit'>Log In</button>
+        </form>
+        </div>
+      </div>
     </div>
   )
 }
