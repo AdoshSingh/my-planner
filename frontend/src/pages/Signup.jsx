@@ -33,7 +33,10 @@ const Signup = () => {
         body: JSON.stringify(userData),
       })
         .then((res) => res.json())
-        .then((data) => { console.log(data.message) })
+        .then((data) => {
+          console.log(data.message);
+          navigate('/login');
+        })
         .catch((err) => { console.log(err) });
 
     } catch (err) {
@@ -44,7 +47,7 @@ const Signup = () => {
   return (
     <div className='h-screen w-screen bg-cusDarkOne bg-cusImage bg-cover bg-fixed'>
       <div className='h-full flex flex-col justify-evenly items-center'>
-        <div className='flex justify-center items-center cursor-pointer' onClick={() => {navigate('/')}}>
+        <div className='flex justify-center items-center cursor-pointer' onClick={() => { navigate('/') }}>
           <img src={images.mainLogo} alt="" className=' w-64' />
         </div>
         <div className='flex flex-col border border-cusSecTwo bg-cusDarkTwo bg-opacity-50 backdrop-blur-md rounded-3xl w-fit items-center justify-center gap-20 p-10'>
@@ -78,8 +81,8 @@ const Signup = () => {
               required
               onChange={(e) => { setConPassword(e.target.value) }}
             />
-            {!isMatching && <p className=' text-red-500 text-sm font-comfortaa'>Passwords do not match!</p>} 
-            <p className='text-cusText font-comfortaa'>Already have an account? <span className=' underline text-cusSecTwo hover:text-cusSecOne cursor-pointer' onClick={() => {navigate('/login')}}>Login</span></p>
+            {!isMatching && <p className=' text-red-500 text-sm font-comfortaa'>Passwords do not match!</p>}
+            <p className='text-cusText font-comfortaa'>Already have an account? <span className=' underline text-cusSecTwo hover:text-cusSecOne cursor-pointer' onClick={() => { navigate('/login') }}>Login</span></p>
             <button className='bg-cusSecTwo border border-cusSecTwo text-cusDarkOne rounded-md py-2 px-4 w-full hover:bg-transparent hover:text-cusSecOne transition' type='submit'>Sign Up</button>
           </form>
         </div>
