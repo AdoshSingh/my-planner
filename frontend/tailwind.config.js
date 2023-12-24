@@ -11,7 +11,8 @@ export default {
         cusDarkTwo: '#1F2833',
         cusText: '#C5C6C7',
         cusSecOne: '#66FCF1',
-        cusSecTwo: '#45A29E', 
+        cusSecTwo: '#45A29E',
+        cusSecThree: '#7FFEF8', 
       },
       fontFamily:{
         comfortaa: ['Comfortaa', 'sans-serif'],
