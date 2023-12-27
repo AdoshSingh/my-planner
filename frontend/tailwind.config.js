@@ -21,6 +21,10 @@ export default {
       },
       backgroundImage: {
         cusImage: 'url(./src/assets/background.jpg)',
+        cusWallpaper1: 'url(./src/assets/wallpaper-1.jpg)',
+        cusWallpaper2: 'url(./src/assets/wallpaper-2.jpg)',
+        cusWallpaper3: 'url(./src/assets/wallpaper-3.jpg)',
+        cusWallpaper4: 'url(./src/assets/wallpaper-4.jpg)',
       }
     },
   },

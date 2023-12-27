@@ -62,7 +62,7 @@ const Todo = ({
     }
 
     return (
-        <div className=' bg-gray-400 p-2 rounded-md font-comfortaa'>
+        <div className=' bg-gray-400 p-2 rounded-md font-comfortaa z-10 shadow-lg'>
             <div className='flex justify-between items-center'>
                 <div className='flex gap-2 items-center justify-center'>
                     <div onClick={handleDoneTask}>
@@ -72,7 +72,7 @@ const Todo = ({
                             <RadioButtonUncheckedRoundedIcon className=' cursor-pointer' style={{ fontSize: '1.2rem', color: '#1F2833' }} />
                         }
                     </div>
-                    <h1 className={` text-2xl text-cusDarkTwo font-semibold ${taskDone && 'line-through'}`}>{title}</h1>
+                    <h1 className={` text-xl text-cusDarkTwo font-semibold ${taskDone && 'line-through'}`}>{title}</h1>
                 </div>
                 <div className="flex gap-2 items-center">
                     {showDescription ?
