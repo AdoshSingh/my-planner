@@ -18,7 +18,6 @@ const Home = () => {
         })
             .then((res) => res.json())
             .then((data) => {
-                console.log(data.message, data.todos);
                 const theTodos = data.todos;
                 theTodos.sort((a, b) => {
                     const doneA = a.done ? 1 : 0;
