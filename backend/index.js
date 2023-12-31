@@ -2,6 +2,7 @@ const express = require('express');
 const { connectToMongoDB } = require('./connect');
 const authRoutes = require('./routes/user');
 const todoRoutes = require('./routes/todo');
+const eventRoutes = require('./routes/event');
 const {userAuth} = require('./middlewares/auth');
 const cors = require('cors');
 require('dotenv').config();
@@ -24,6 +25,7 @@ connectToMongoDB(process.env.MONGO_URI)
 
 app.use('/auth', authRoutes);
 app.use('/todo', userAuth, todoRoutes);
+app.use('/event', userAuth, eventRoutes);
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {

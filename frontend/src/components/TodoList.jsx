@@ -23,7 +23,7 @@ const TodoList = ({ userTodos, setUserTodos, token, getUserTodos }) => {
     }
 
     return (
-        <div className=' relative w-[450px] h-[500px] flex flex-col justify-between gap-4 p-4 rounded-3xl border-2 border-cusSecOne bg-cusDarkTwo overflow-hidden'>
+        <div className=' relative w-[25%] h-[500px] flex flex-col justify-between gap-4 p-4 rounded-3xl border-2 border-cusSecOne bg-cusDarkTwo overflow-hidden'>
             <img
                 src={currWallpaper}
                 className='absolute w-full h-full top-0 left-0 opacity-60' alt=""

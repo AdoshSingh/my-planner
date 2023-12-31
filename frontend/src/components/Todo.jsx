@@ -62,7 +62,7 @@ const Todo = ({
     }
 
     return (
-        <div className=' bg-gray-400 p-2 rounded-md font-comfortaa z-10 shadow-lg'>
+        <div className=' bg-gray-300 p-2 rounded-md font-comfortaa z-10 shadow-lg'>
             <div className='flex justify-between items-center'>
                 <div className='flex gap-2 items-center justify-center'>
                     <div onClick={handleDoneTask}>
