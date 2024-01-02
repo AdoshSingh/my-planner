@@ -1,10 +1,14 @@
 const Event = require('../models/event');
+const User = require('../models/user');
 
 const handleAddEvent = async (req, res) => {
     try {
         const {year, month, day, title, description} = req.body;
+        const userInfo = req.decodedToken;
 
-        const existingEvent = await Event.findOne({year: year, month: month, day: day});
+        const existingUser = await User.findOne({email: userInfo.email});
+
+        const existingEvent = await Event.findOne({year: year, month: month, day: day, user: existingUser});
         if(existingEvent){
             res.status(409).json({message: 'An event already exists, you can edit this.'});
             return;
@@ -17,7 +21,8 @@ const handleAddEvent = async (req, res) => {
             event:{
                 title: title,
                 description: description,
-            }
+            },
+            user: existingUser,
         });
 
         await newEvent.save();
@@ -32,8 +37,11 @@ const handleAddEvent = async (req, res) => {
 const handleGetEvent = async (req, res) => {
     try {
         const {year, month, day} = req.body;
+        const userInfo = req.decodedToken;
 
-        const existingEvent = await Event.findOne({year: year, month: month, day: day});
+        const existingUser = await User.findOne({email: userInfo.email});
+
+        const existingEvent = await Event.findOne({year: year, month: month, day: day, user: existingUser});
         if(!existingEvent){
             res.status(404).json({message: 'Event not found!'});
         }
@@ -48,8 +56,11 @@ const handleGetEvent = async (req, res) => {
 const handleGetMonthEvent = async (req, res) => {
     try {
         const {year, month} = req.body;
+        const userInfo = req.decodedToken;
 
-        const existingEvents = await Event.find({year: year, month: month});
+        const existingUser = await User.findOne({email: userInfo.email});
+
+        const existingEvents = await Event.find({year: year, month: month, user: existingUser});
         if(!existingEvents){
             res.status(404).json({message: 'No events found!'});
         }
