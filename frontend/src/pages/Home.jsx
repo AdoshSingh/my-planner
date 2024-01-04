@@ -55,7 +55,9 @@ const Home = () => {
                     {userTodos &&
                         <TodoList userTodos={userTodos} setUserTodos={setUserTodos} token={token} getUserTodos={getUserTodos} />
                     }
-                    <Event/>
+                    {token &&
+                        <Event token={token}/>
+                    }
                 </div>
             </div>
         </div>
