@@ -4,7 +4,6 @@ const User = require('../models/user');
 const handleAddEvent = async (req, res) => {
     try {
         const { year, month, day, title, description } = req.body;
-        console.log(req.body);
         const userInfo = req.decodedToken;
 
         const existingUser = await User.findOne({ email: userInfo.email });
@@ -77,22 +76,47 @@ const handleGetMonthEvent = async (req, res) => {
 
 const handleDeleteEvent = async (req, res) => {
     try {
-        const {year, month, day} = req.body;
+        const { year, month, day } = req.body;
         const userInfo = req.decodedToken;
 
         const existingUser = await User.findOne({ email: userInfo.email });
 
         const result = await Event.findOneAndDelete({ year: year, month: month, day: day, user: existingUser });
 
-        if(result){
-            res.status(200).json({message: 'Event deleted successfully!'});
+        if (result) {
+            res.status(200).json({ message: 'Event deleted successfully!' });
         }
-        else{
-            res.status(404).json({message: 'Event not found!'})
+        else {
+            res.status(404).json({ message: 'Event not found!' })
         }
     } catch (error) {
         console.log(error);
-        res.status(500).json({message: 'Internal server error!'});
+        res.status(500).json({ message: 'Internal server error!' });
+    }
+}
+
+const handleEditEvent = async (req, res) => {
+    try {
+        const { year, month, day, title, description } = req.body;
+        const userInfo = req.decodedToken;
+
+        const existingUser = await User.findOne({ email: userInfo.email });
+
+        const existingEvent = await Event.findOneAndUpdate(
+            { year: year, month: month, day: day, user: existingUser },
+            { $set: { 'event.title': title, 'event.description': description } },
+            { new: true },
+        );
+
+        if(!existingEvent){
+            res.status(404).json({message: 'Event not found!'});
+            return;
+        }
+
+        res.status(200).json({message: 'Event edited successfully', updated: existingEvent});
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Internal server error!" });
     }
 }
 
@@ -101,4 +125,5 @@ module.exports = {
     handleGetEvent,
     handleGetMonthEvent,
     handleDeleteEvent,
+    handleEditEvent,
 }

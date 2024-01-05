@@ -9,6 +9,9 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import AddEvent from './AddEvent';
 import Dot from './Dot';
 import CurrentEvent from './CurrentEvent';
+import EditEvent from './EditEvent';
+import images from '../assets/exo';
+import WallpaperSlider from './WallpaperSlider';
 
 const months = {
     0: "January",
@@ -25,13 +28,24 @@ const months = {
     11: "December",
 }
 
-const Event = ({token}) => {
+const Event = ({ token }) => {
 
     const [value, setValue] = useState(dayjs());
     const [highlightedDays, setHighlightedDays] = useState([]);
     const [visibleMonth, setVisibleMonth] = useState(dayjs());
     const [visibleYear, setVisibleYear] = useState(dayjs());
     const [showAddEvent, setShowAddEvent] = useState(false);
+    const [showEditEvent, setShowEditEvent] = useState(false);
+    const [editTitle, setEditTitle] = useState();
+    const [editDescription, setEditDescription] = useState();
+    const [currkey, setCurrKey] = useState(1);
+    const [currWallpaper, setCurrWallpaper] = useState(images.wallpaper1);
+
+    useEffect(() => {
+        let newKey = currkey + 1;
+        setCurrKey(newKey);
+    }, [value])
+
 
     useEffect(() => {
 
@@ -60,7 +74,7 @@ const Event = ({token}) => {
                     days.push(ele.day);
                 })
                 setHighlightedDays(days);
-            }) 
+            })
             .catch(err => {
                 console.log(err);
             })
@@ -94,7 +108,7 @@ const Event = ({token}) => {
                     days.push(ele.day);
                 })
                 setHighlightedDays(days);
-            }) 
+            })
             .catch(err => {
                 console.log(err);
             })
@@ -113,7 +127,7 @@ const Event = ({token}) => {
             <Badge
                 key={props.day.toString()}
                 overlap="circular"
-                badgeContent={isSelected ? <Dot/> : undefined}
+                badgeContent={isSelected ? <Dot /> : undefined}
             >
                 <PickersDay {...other} outsideCurrentMonth={outsideCurrentMonth} day={day} />
             </Badge>
@@ -150,18 +164,30 @@ const Event = ({token}) => {
                 </LocalizationProvider>
             </div>
             <div className='flex flex-col h-full gap-4 p-4 items-end w-full justify-between relative'>
+                <img
+                    src={currWallpaper}
+                    className='absolute w-full h-full top-0 left-0 opacity-60' alt=""
+                />
                 <h1 className='h-[8%] text-cusSecOne font-comfortaa text-3xl font-bold z-10'>My Events</h1>
-                {value &&
-                    <CurrentEvent highlightedDays={highlightedDays} setHighlightedDays={setHighlightedDays} value={value} token={token}/>
+                {value && currkey &&
+                    <CurrentEvent currkey={currkey} highlightedDays={highlightedDays} setHighlightedDays={setHighlightedDays} value={value} token={token}
+                        setEditTitle={setEditTitle} setEditDescription={setEditDescription} setShowEditEvent={setShowEditEvent}
+                    />
                 }
-                <div
-                    className=' group h-10 w-10 flex items-center justify-center bg-cusSecOne rounded-full cursor-pointer hover:border border-cusSecOne hover:bg-transparent transition-all'
-                    onClick={() => { setShowAddEvent(true) }}
-                >
-                    <AddRoundedIcon className=' text-cusDarkTwo group-hover:text-cusSecOne transition-all' />
+                <div className=' h-[8%] flex items-center justify-between w-full z-10'>
+                    <WallpaperSlider setCurrWallpaper={setCurrWallpaper} />
+                    <div
+                        className=' group h-10 w-10 flex items-center justify-center bg-cusSecOne rounded-full cursor-pointer hover:border border-cusSecOne hover:bg-transparent transition-all'
+                        onClick={() => { setShowAddEvent(true) }}
+                    >
+                        <AddRoundedIcon className=' text-cusDarkTwo group-hover:text-cusSecOne transition-all' />
+                    </div>
                 </div>
-                {showAddEvent && 
-                    <AddEvent parentValue={value} setParentValue={setValue} highlightedDays={highlightedDays} setHighlightedDays={setHighlightedDays} setShowAddEvent={setShowAddEvent} token={token}/>
+                {showEditEvent &&
+                    <EditEvent value={value} setCurrKey={setCurrKey} editTitle={editTitle} editDescription={editDescription} token={token} setShowEditEvent={setShowEditEvent} />
+                }
+                {showAddEvent &&
+                    <AddEvent parentValue={value} setCurrKey={setCurrKey} setParentValue={setValue} highlightedDays={highlightedDays} setHighlightedDays={setHighlightedDays} setShowAddEvent={setShowAddEvent} token={token} />
                 }
             </div>
         </div>

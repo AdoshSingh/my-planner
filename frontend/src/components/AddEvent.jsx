@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import dayjs from 'dayjs';
 
 const months = {
     0: "January",
@@ -21,7 +20,7 @@ const months = {
     11: "December",
 }
 
-const AddEvent = ({parentValue, setParentValue, highlightedDays, setHighlightedDays, setShowAddEvent, token }) => {
+const AddEvent = ({parentValue, setCurrKey, setParentValue, highlightedDays, setHighlightedDays, setShowAddEvent, token }) => {
 
     const [value, setValue] = useState(parentValue);
     const [title, setTitle] = useState();
@@ -55,10 +54,6 @@ const AddEvent = ({parentValue, setParentValue, highlightedDays, setHighlightedD
         }
     });
 
-    // useEffect(() => {
-    //     console.log(value);
-    // }, [value])
-
     const handleAddEvent = (e) => {
         e.preventDefault();
 
@@ -67,8 +62,6 @@ const AddEvent = ({parentValue, setParentValue, highlightedDays, setHighlightedD
         const month = months[monthNo];
         const year = value.$y;
 
-        // console.log(day, monthNo, month, year);
-
         const eventData = {
             year: year,
             month: month,
@@ -76,8 +69,6 @@ const AddEvent = ({parentValue, setParentValue, highlightedDays, setHighlightedD
             title: title,
             description: description,
         }
-
-        // console.log(eventData);
 
         fetch('http://localhost:8000/event/add-event', {
             method: 'POST',
@@ -94,6 +85,7 @@ const AddEvent = ({parentValue, setParentValue, highlightedDays, setHighlightedD
                 const newArr = [...highlightedDays, day];
                 setHighlightedDays(newArr);
                 setParentValue(value);
+                setCurrKey(prev => prev + 1);
             })
             .catch(err => {
                 console.log(err);

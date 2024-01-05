@@ -17,7 +17,7 @@ const months = {
     11: "December",
 }
 
-const CurrentEvent = ({ highlightedDays, setHighlightedDays, value, token }) => {
+const CurrentEvent = ({ currkey, highlightedDays, setHighlightedDays, value, token, setEditTitle, setEditDescription, setShowEditEvent }) => {
 
     const [event, setEvent] = useState(false);
     const [day, setDay] = useState();
@@ -25,6 +25,8 @@ const CurrentEvent = ({ highlightedDays, setHighlightedDays, value, token }) => 
     const [year, setYear] = useState();
     const [title, setTitle] = useState();
     const [description, setDescription] = useState();
+
+    useEffect(() => {console.log(currkey)}, [currkey])
 
     useEffect(() => {
         const _year = value.$y;
@@ -64,7 +66,7 @@ const CurrentEvent = ({ highlightedDays, setHighlightedDays, value, token }) => 
             .catch(err => {
                 console.log(err);
             })
-    }, [value])
+    }, [value, currkey])
 
     const handleDelete = () => {
         const data = {
@@ -93,8 +95,14 @@ const CurrentEvent = ({ highlightedDays, setHighlightedDays, value, token }) => 
             })
     }
 
+    const handleEdit = () => {
+        setShowEditEvent(true);
+        setEditTitle(title);
+        setEditDescription(description);
+    }
+
     return (
-        <div className='w-full flex-1 rounded-md bg-gray-300 font-comfortaa flex'>
+        <div className='w-full flex-1 rounded-md bg-gray-300 font-comfortaa flex z-10'>
             {!event ?
                 <p className='flex flex-col gap-2 p-2 w-full bg-gray-400 rounded-md m-2 font-bold'>
                     No event listed...
@@ -113,7 +121,7 @@ const CurrentEvent = ({ highlightedDays, setHighlightedDays, value, token }) => 
                     </p>
                         <div className='flex gap-2 bg-gray-300 justify-between rounded-tl-md rounded-br-md'>
                             <DeleteIcon className=' cursor-pointer' onClick={handleDelete}/>
-                            <EditIcon className=' cursor-pointer'/>
+                            <EditIcon className=' cursor-pointer' onClick={handleEdit}/>
                         </div>
                 </div>
             }
